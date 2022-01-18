@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiutingYin || UEditor使用</title>
+    <meta name="author" content="HiutingYin">
+    <meta name="description" content="PHPer|热爱生活，发现美好 ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/night-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">HiutingYin</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>home</span>
+        </a>
+        
+        <a href="/about">
+            <span>
+                <a-icon type="idcard" theme="filled" />
+            </span>
+            <span>about</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>archives</span>
+        </a>
+        
+        <a href="/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>categories</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>tags</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>HiutingYin</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">home</div>
+                </div>
+            </a>
+            
+            <a href="/about">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="idcard" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">about</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">archives</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">categories</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">tags</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>UEditor使用 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/6/7
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/日常问题合集">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                日常问题合集
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/HTML" style=color:#6484be>
+                    HTML
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h3 id="问题描述及解决方案"><a href="#问题描述及解决方案" class="headerlink" title="问题描述及解决方案"></a>问题描述及解决方案</h3><p>前端时间在做玩家投稿活动，因为涉及到文章投稿，所以用了UEditor富文本编辑器。<br>在使用过程中，遇到了以下几个问题，基本可以通过修改UEDITOR_CONFIG的配置即可实现。</p>
+<p>1、关闭字体颜色、背景色设定，玩家如果从外部复制文案的话，也需要去除对应的颜色设定</p>
+<pre><code class="$xslt">    window.UEDITOR_CONFIG.retainOnlyLabelPasted = true;//粘贴只保留标签，去除标签所有属性
+</code></pre>
+<p>2、关闭图片粘贴入口</p>
+<pre><code class="$xslt">    window.UEDITOR_CONFIG.pasteplain = true;//默认为纯文本粘贴
+</code></pre>
+<p>3、关闭富文本框大小的调整入口</p>
+<pre><code class="$xslt">    window.UEDITOR_CONFIG.scaleEnabled = false;
+</code></pre>
+<p>4、上传图片太大，导致整个富文本框充满图片，需要对图片大小进行处理</p>
+<pre><code class="$xslt">    window.UEDITOR_CONFIG.initialStyle = &#39;img&#123;max-height:200px;max-width:100%&#125;&#39;;
+</code></pre>
+<p>5、关闭图片的大小调整入口</p>
+<pre><code class="$xslt">&lt;style&gt;
+    #edui1_imagescale &#123;
+        display: none !important;
+    &#125;
+&lt;/style&gt;
+</code></pre>
+<p>6、UEditor提交的文档前端展示处理<br>UEditor提交的文档，展示的时候基本是通过iframe直接展示对应的html内容。<br>但是由于活动的弹窗样式等，可能会出现玩家自定义的内容与弹窗样式相违和，所以需要对玩家提交的文档样式进行处理。</p>
+<pre><code class="$xslt">    //1.填充内容至iframe
+     $(&#39;#articleContent&#39;).contents().find(&#39;body&#39;).html(data.content);
+    //2.修改文档样式
+    var x = document.getElementById(&quot;articleContent&quot;);
+    var y = (x.contentWindow || x.contentDocument);
+    if (y.document) y = y.document;
+    
+    y.body.style.background = &quot;transparent&quot;;//去除背景色
+    y.body.style.color = &quot;white&quot;;//设置默认字体颜色
+    y.body.style.fontSize = &#39;14px&#39;;//设置默认字体大小
+    y.body.style.whiteSpace = &#39;pre-line&#39;;//自动换行
+    y.body.style.wordBreak = &#39;break-all&#39;;
+    y.body.style.lineHeight = &#39;20px&#39;;
+    //判断是否有白背景文字
+    var deptObjs = y.getElementsByTagName(&quot;p&quot;);
+    for (var i = 0; i &lt; deptObjs.length; i++) &#123;
+        var tmp = deptObjs[i];
+        var bg = window.getComputedStyle(tmp, null);
+        if (bg[&#39;background-color&#39;] == &#39;rgb(255, 255, 255)&#39;) &#123;
+            tmp.style.background = &quot;transparent&quot;;
+            tmp.style.color = &quot;#c2cde8&quot;;
+        &#125;
+    &#125;
+    //设置图片大小
+    var imgArr = y.getElementsByTagName(&#39;img&#39;);
+    for (var j = 0; j &lt; imgArr.length; j++) &#123;
+        var img = imgArr[j];
+        img.style.maxHeight = &quot;200px&quot;;
+        img.style.maxWidth = &quot;500px&quot;;
+    &#125;
+</code></pre>
+
+    </div>
+
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2022 HiutingYin
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @HiutingYin
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>

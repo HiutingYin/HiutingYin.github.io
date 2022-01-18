@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiutingYin || 根据B站单条视频地址获取对应基础信息</title>
+    <meta name="author" content="HiutingYin">
+    <meta name="description" content="PHPer|热爱生活，发现美好 ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/night-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">HiutingYin</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>home</span>
+        </a>
+        
+        <a href="/about">
+            <span>
+                <a-icon type="idcard" theme="filled" />
+            </span>
+            <span>about</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>archives</span>
+        </a>
+        
+        <a href="/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>categories</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>tags</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>HiutingYin</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">home</div>
+                </div>
+            </a>
+            
+            <a href="/about">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="idcard" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">about</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">archives</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">categories</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">tags</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>根据B站单条视频地址获取对应基础信息 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/8/30
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/日常问题合集">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                日常问题合集
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/PHP" style=color:#6484be>
+                    PHP
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>投稿活动开发过程中有个需求，需要玩家输入对应的B站视频链接后，需要读取该视频的标题、封面、播放地址等信息。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>通过对B站视频页面的源代码解析，获取所需信息。<br>1、通过curl抓取页面<br>2、解析抓取结果以此判断地址的合理性</p>
+<pre><code class="php">    $url = &#39;https://www.bilibili.com/video/BV1AE411D7Pb&#39;;
+    $url = str_replace(&#39;http:&#39;, &#39;https:&#39;, $url);
+    $parsedUrl = parse_url($url);
+    $host = $parsedUrl[&#39;host&#39;];
+    if (!in_array($host, [&#39;www.bilibili.com&#39;, &#39;b23.tv&#39;])) &#123;
+        return false;
+    &#125;
+    $checkUrl = $url;
+    $matches = [];
+    //手机app上的分享地址，会做一次重定向
+    if ($host == &#39;b23.tv&#39;) &#123;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_USERAGENT, &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0&#39;);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_NOBODY, false);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_ENCODING, &#39;gzip&#39;);
+        $curlInfo = curl_getinfo($curl);
+        curl_close($curl);
+        if ($curlInfo[&#39;http_code&#39;] == 301 || $curlInfo[&#39;http_code&#39;] == 302) &#123;
+        $checkUrl = $curlInfo[&#39;redirect_url&#39;];
+        $parsedUrl = parse_url($checkUrl);
+        $host = $parsedUrl[&#39;host&#39;];
+        if (!in_array($host, [&#39;www.bilibili.com&#39;, &#39;b23.tv&#39;])) &#123;
+            return false;
+        &#125;
+        &#125;
+    &#125;
+    //拿到pc地址后，抓取页面返回结果
+    $ua = &#39;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36 OPR/58.0.3135.68&#39;;
+    $res = Request::curl($checkUrl, null, [&#39;User-Agent: &#39; . $ua], &#39;get&#39;);
+    $res = gzdecode($res) ?: $res;
+    //因为相关信息在script中，所以通过正则获取script信息
+    preg_match_all(&#39;#&lt;\s*script&gt;(.*)&lt;/script&gt;#iUs&#39;, $res, $matches);
+    $videoData = [];
+    foreach ($matches as $match) &#123;
+        if (is_array($match)) &#123;
+        foreach ($match as $m) &#123;
+            $pattern = &#39;#window.__INITIAL_STATE__=(.+);#iUs&#39;;
+            if (!$m) &#123;
+            continue;
+            &#125;
+            preg_match($pattern, $m, $match1);
+            if ($match1 &amp;&amp; isset($match1[1]) &amp;&amp; $match1[1]) &#123;
+            $a = isset($match1[1]) ? json_decode($match1[1], true) : [];
+            $videoData = $a[&#39;videoData&#39;];
+            break 2;
+            &#125;
+        &#125;
+        &#125;
+    &#125;
+    echo &quot;&lt;pre&gt;&quot;;
+    $returnData = [];
+    if ($videoData) &#123;
+        $returnData = [
+        &#39;aid&#39;       =&gt; $videoData[&#39;aid&#39;],
+        &#39;bvid&#39;      =&gt; $videoData[&#39;bvid&#39;],
+        &#39;cid&#39;       =&gt; $videoData[&#39;cid&#39;],
+        &#39;title&#39;     =&gt; $videoData[&#39;title&#39;],
+        &#39;cover&#39;     =&gt; $videoData[&#39;pic&#39;],
+        &#39;iframeUrl&#39; =&gt; sprintf(&#39;//player.bilibili.com/player.html?aid=%d&amp;cid=%d&#39;, $videoData[&#39;aid&#39;], $videoData[&#39;cid&#39;]),
+        ];
+    &#125;
+    var_dump($returnData);
+    exit();
+</code></pre>
+<p>返回示例：</p>
+<pre><code class="php">array(6) &#123;
+  [&quot;aid&quot;]=&gt;
+  int(70058723)
+  [&quot;bvid&quot;]=&gt;
+  string(12) &quot;BV1AE411D7Pb&quot;
+  [&quot;cid&quot;]=&gt;
+  int(121383501)
+  [&quot;title&quot;]=&gt;
+  string(80) &quot;【踩点/多英雄/多皮肤】英魂之刃  1分钟能抢走你的硬币嘛？&quot;
+  [&quot;cover&quot;]=&gt;
+  string(76) &quot;http://i1.hdslb.com/bfs/archive/9f2550eb3839dfbbec1384cef0f013cabb54cc86.jpg&quot;
+  [&quot;iframeUrl&quot;]=&gt;
+  string(60) &quot;//player.bilibili.com/player.html?aid=70058723&amp;cid=121383501&quot;
+&#125;
+</code></pre>
+
+    </div>
+
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2022 HiutingYin
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @HiutingYin
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>
