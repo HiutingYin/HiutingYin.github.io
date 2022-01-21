@@ -2,11 +2,9 @@
 title: QQ对话框中发送网站链接时，所显示预览内容的修改方法
 author: HiuTingYin
 date: 2020-09-30 15:55:00 +0800
-categories: 
-- 日常问题合集
-tags:
-- HTML
-excerpt：网站分享bug解决
+categories: [日常问题合集, HTML]
+tags: HTML
+excerpt: 网站分享bug解决
 ---
 
 

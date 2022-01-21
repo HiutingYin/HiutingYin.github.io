@@ -3,20 +3,15 @@ title: 根据B站单条视频地址获取对应基础信息
 author: HiuTingYin
 date: 2021-08-30 18:54:00 +0800
 
-categories: 
-- 日常问题合集
-tags: 
-- PHP
-excerpt：投稿活动开发过程中有个需求，需要玩家输入对应的B站视频链接后，需要读取该视频的标题、封面、播放地址等信息。
+categories: [日常问题合集, PHP]
+tags: PHP
 ---
 
-
-### 问题描述
-
 投稿活动开发过程中有个需求，需要玩家输入对应的B站视频链接后，需要读取该视频的标题、封面、播放地址等信息。
+<!-- more -->
 
-### 解决方法
-通过对B站视频页面的源代码解析，获取所需信息。
+# 解决方法
+如果不走官方的接口的话，我们只能通过对B站视频页面的源代码解析，获取所需信息。
 1、通过curl抓取页面
 2、解析抓取结果以此判断地址的合理性
 
@@ -45,12 +40,12 @@ excerpt：投稿活动开发过程中有个需求，需要玩家输入对应的B
         $curlInfo = curl_getinfo($curl);
         curl_close($curl);
         if ($curlInfo['http_code'] == 301 || $curlInfo['http_code'] == 302) {
-        $checkUrl = $curlInfo['redirect_url'];
-        $parsedUrl = parse_url($checkUrl);
-        $host = $parsedUrl['host'];
-        if (!in_array($host, ['www.bilibili.com', 'b23.tv'])) {
-            return false;
-        }
+            $checkUrl = $curlInfo['redirect_url'];
+            $parsedUrl = parse_url($checkUrl);
+            $host = $parsedUrl['host'];
+            if (!in_array($host, ['www.bilibili.com', 'b23.tv'])) {
+                return false;
+            }
         }
     }
     //拿到pc地址后，抓取页面返回结果
@@ -62,30 +57,30 @@ excerpt：投稿活动开发过程中有个需求，需要玩家输入对应的B
     $videoData = [];
     foreach ($matches as $match) {
         if (is_array($match)) {
-        foreach ($match as $m) {
-            $pattern = '#window.__INITIAL_STATE__=(.+);#iUs';
-            if (!$m) {
-            continue;
+            foreach ($match as $m) {
+                $pattern = '#window.__INITIAL_STATE__=(.+);#iUs';
+                if (!$m) {
+                    continue;
+                }
+                preg_match($pattern, $m, $match1);
+                if ($match1 && isset($match1[1]) && $match1[1]) {
+                    $a = isset($match1[1]) ? json_decode($match1[1], true) : [];
+                    $videoData = $a['videoData'];
+                    break 2;
+                }
             }
-            preg_match($pattern, $m, $match1);
-            if ($match1 && isset($match1[1]) && $match1[1]) {
-            $a = isset($match1[1]) ? json_decode($match1[1], true) : [];
-            $videoData = $a['videoData'];
-            break 2;
-            }
-        }
         }
     }
     echo "<pre>";
     $returnData = [];
     if ($videoData) {
         $returnData = [
-        'aid'       => $videoData['aid'],
-        'bvid'      => $videoData['bvid'],
-        'cid'       => $videoData['cid'],
-        'title'     => $videoData['title'],
-        'cover'     => $videoData['pic'],
-        'iframeUrl' => sprintf('//player.bilibili.com/player.html?aid=%d&cid=%d', $videoData['aid'], $videoData['cid']),
+            'aid'       => $videoData['aid'],
+            'bvid'      => $videoData['bvid'],
+            'cid'       => $videoData['cid'],
+            'title'     => $videoData['title'],
+            'cover'     => $videoData['pic'],
+            'iframeUrl' => sprintf('//player.bilibili.com/player.html?aid=%d&cid=%d', $videoData['aid'], $videoData['cid']),
         ];
     }
     var_dump($returnData);
@@ -95,17 +90,11 @@ excerpt：投稿活动开发过程中有个需求，需要玩家输入对应的B
 返回示例：
 ```php
 array(6) {
-  ["aid"]=>
-  int(70058723)
-  ["bvid"]=>
-  string(12) "BV1AE411D7Pb"
-  ["cid"]=>
-  int(121383501)
-  ["title"]=>
-  string(80) "【踩点/多英雄/多皮肤】英魂之刃  1分钟能抢走你的硬币嘛？"
-  ["cover"]=>
-  string(76) "http://i1.hdslb.com/bfs/archive/9f2550eb3839dfbbec1384cef0f013cabb54cc86.jpg"
-  ["iframeUrl"]=>
-  string(60) "//player.bilibili.com/player.html?aid=70058723&cid=121383501"
+  ["aid"]=>int(70058723)
+  ["bvid"]=>string(12) "BV1AE411D7Pb"
+  ["cid"]=>int(121383501)
+  ["title"]=>string(80) "【踩点/多英雄/多皮肤】英魂之刃  1分钟能抢走你的硬币嘛？"
+  ["cover"]=>string(76) "http://i1.hdslb.com/bfs/archive/9f2550eb3839dfbbec1384cef0f013cabb54cc86.jpg"
+  ["iframeUrl"]=>string(60) "//player.bilibili.com/player.html?aid=70058723&cid=121383501"
 }
 ```

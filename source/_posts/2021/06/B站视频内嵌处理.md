@@ -2,11 +2,9 @@
 title: B站视频内嵌处理
 author: HiuTingYin
 date: 2021-06-18 16:55:00 +0800
-categories: 
-- 日常问题合集
-tags: 
-- HTML
-excerpt：内嵌B站视频处理
+categories: [日常问题合集, HTML]
+tags: HTML
+excerpt: 内嵌B站视频处理
 ---
 
 

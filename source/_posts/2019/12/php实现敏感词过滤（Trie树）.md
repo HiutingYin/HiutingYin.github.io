@@ -2,10 +2,8 @@
 title: php实现敏感词过滤（Trie树）
 author: HiuTingYin
 date: 2019-12-27 20:55:00 +0800
-categories: 
-- 日常问题合集
-tags: 
-- PHP
+categories:  [日常问题合集, PHP]
+tags: PHP
 excerpt: 项目需求需要对敏感词进行过滤，需要精确匹配、模糊匹配，并且要根据不同时期（例如重大节假日），或是不同级别的项目，对敏感词的校验严格度不同，进一步进行处理。
 ---
 

@@ -2,10 +2,8 @@
 title: curl请求返回证书报错
 author: HiuTingYin
 date: 2020-09-18 16:55:00 +0800
-categories: 
-- 日常问题合集
-tags: 
-- PHP
+categories: [日常问题合集, PHP]
+tags: PHP
 excerpt: curl请求返回证书报错排查思路及解决方案
 ---
 

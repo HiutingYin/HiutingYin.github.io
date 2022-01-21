@@ -1,11 +1,9 @@
 ---
 title: redis的排行榜处理
 date: 2021-03-24 18:27:10 +0800
-categories: 
-- 日常问题合集
-tags: 
-- Reids
-excerpt：redis的ZINTERSTORE方法实战
+categories: [日常问题合集, Redis]
+tags: Reids
+excerpt: redis的ZINTERSTORE方法实战
 ---
 
 #### 前言

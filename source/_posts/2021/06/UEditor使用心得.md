@@ -2,11 +2,9 @@
 title: UEditor使用
 author: HiuTingYin
 date: 2021-06-07 16:55:00 +0800
-categories: 
-- 日常问题合集
-tags: 
-- HTML
-excerpt：UEditor富文本编辑器使用过程中踩过的坑
+categories: [日常问题合集, HTML]
+tags: HTML
+excerpt: UEditor富文本编辑器使用过程中踩过的坑
 ---
 
 

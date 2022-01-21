@@ -4,8 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.deploy_git" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/blog/themes/particle" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/blog/themes/white" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/themes/next" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/themes/particle" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/themes/particle1" vcs="Git" />
   </component>
 </project>

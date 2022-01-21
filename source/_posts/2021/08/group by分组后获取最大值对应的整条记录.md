@@ -2,13 +2,13 @@
 title: group by分组后获取最大值对应的整条记录
 author: HiuTingYin
 date: 2021-08-25 18:58:00 +0800
-categories: 
-- 日常问题合集
-tags: 
-- MySQL
-excerpt：group by取组内最大值值一行数据方案
+categories: [日常问题合集, MySQL]
+tags: MySQL
 ---
 
+在mysql中如果使用 `group by`进行分组获取某一列的最大值，我们可以直接使用`max`进行获取。  
+但是如果我们需要最大值对应的其余列值，那么我们需要取得整行的数据。
+<!-- more -->
 
 ### 问题描述
 

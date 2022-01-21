@@ -2,11 +2,9 @@
 title: Html中include的用法
 author: HiuTingYin
 date: 2021-06-26 17:38:00 +0800
-categories: 
-- 日常问题合集
-tags: 
-- HTML
-excerpt：因为在日常活动开发过程中，页面的底部基本都需要 版权或者相关的页脚 信息，这时候就可以将这部分代码单独抽成一个html文件，每次引用即可。
+categories:  [日常问题合集, HTML]
+tags: HTML
+excerpt: 因为在日常活动开发过程中，页面的底部基本都需要 版权或者相关的页脚 信息，这时候就可以将这部分代码单独抽成一个html文件，每次引用即可。
 ---
 
 

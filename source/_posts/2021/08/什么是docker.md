@@ -1,18 +1,14 @@
 ---
 title: 什么是docker
 author: HiuTingYin
-date: 2021-08-30 18:53:00 +0800
+date: 2021-08-29 18:00:00 +0800
 
-categories: 
-- 读书笔记
--- docker
-tags: 
-- 读书笔记
--- docker
-excerpt：Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。**它是目前最流行的 Linux 容器解决方案
+categories: [读书笔记, docker]
+tags: docker
 ---
 
 **Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。**它是目前最流行的 Linux 容器解决方案。
+<!-- more -->
 
 ### 一、软件开发环境问题
 
@@ -61,8 +57,6 @@ Docker 的主要用途，目前有三大类。
 
 image 是二进制文件。实际开发中，一个 image 文件往往通过继承另一个 image 文件，加上一些个性化设置而生成。举例来说，你可以在 Ubuntu 的 image 基础上，往里面加入 Apache 服务器，形成你的 image。
   
-```
-参考资料：
-1.【Docker 入门教程-阮一峰】https://juejin.cn/post/6844903561432662023
-
-```
+  
+    参考资料：
+    【Docker 入门教程-阮一峰】https://juejin.cn/post/6844903561432662023
