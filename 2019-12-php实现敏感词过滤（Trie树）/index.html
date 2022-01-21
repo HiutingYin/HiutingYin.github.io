@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hiutingyin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"b2t":true,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="代码适用场景：1.特殊时间需要大规模针对某些敏感词进行敏感词检测 2.敏感词除了精确匹配外还需要模糊匹配，如傻lkaj瓜">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php实现敏感词过滤（Trie树）">
+<meta property="og:url" content="https://hiutingyin.github.io/2019-12-php%E5%AE%9E%E7%8E%B0%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4%EF%BC%88Trie%E6%A0%91%EF%BC%89/index.html">
+<meta property="og:site_name" content="HiutingYin">
+<meta property="og:description" content="代码适用场景：1.特殊时间需要大规模针对某些敏感词进行敏感词检测 2.敏感词除了精确匹配外还需要模糊匹配，如傻lkaj瓜">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image-static.segmentfault.com/259/120/2591209789-5e0eb5873e7f2_articlex">
+<meta property="article:published_time" content="2019-12-27T12:55:00.000Z">
+<meta property="article:author" content="HiutingYin">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image-static.segmentfault.com/259/120/2591209789-5e0eb5873e7f2_articlex">
+
+<link rel="canonical" href="https://hiutingyin.github.io/2019-12-php%E5%AE%9E%E7%8E%B0%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4%EF%BC%88Trie%E6%A0%91%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>php实现敏感词过滤（Trie树） | HiutingYin</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HiutingYin</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">热爱生活，发现美好</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/HiutingYin" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/2019-12-php%E5%AE%9E%E7%8E%B0%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4%EF%BC%88Trie%E6%A0%91%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="HiutingYin">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HiutingYin">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          php实现敏感词过滤（Trie树）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-27 20:55:00" itemprop="dateCreated datePublished" datetime="2019-12-27T20:55:00+08:00">2019-12-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/" itemprop="url" rel="index"><span itemprop="name">日常问题合集</span></a>
+                </span>
+                  >
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="代码适用场景："><a href="#代码适用场景：" class="headerlink" title="代码适用场景："></a>代码适用场景：</h4><p>1.特殊时间需要大规模针对某些敏感词进行敏感词检测</p>
+<p>2.敏感词除了精确匹配外还需要模糊匹配，如傻lkaj瓜</p>
+<p>3.针对不同时期（例如重大节假日），或者是不同级别的项目，对敏感词的校验严格度不同，进行进一步处理。</p>
+<h4 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h4><p>通过前缀树/字典树 算法，通过利用字符串的公共前缀来节约存储空间。</p>
+<p>例如当前敏感词数组为：[‘傻瓜’,’傻瓜蛋’,’傻子’]</p>
+<p>当要匹配的字符串中含有 ‘傻瓜’、’傻子’时，下图字典树示例中的红色边框则为对应的终止节点。</p>
+<p>字典树如图所示：</p>
+<p><img src="https://image-static.segmentfault.com/259/120/2591209789-5e0eb5873e7f2_articlex" alt="image.png"></p>
+<p>首先需要通过敏感词字典文件将敏感词初始化字典树，<br>然后在字典树上搜索添加过的字符串。</p>
+<p>其步骤如下：  </p>
+<p>1.从根结点开始搜索。</p>
+<p>2.取得要查找字符串的第一个字符，根据该字符选择对应的字符路径向下继续搜索。</p>
+<p>3.如果字符串搜索完成后，判断当前是否已经是对应敏感字符路径的终止节点，如果是的话，说明字典树中含有该字符串，反正说明不含有该字符串。</p>
+<p>4.如果想要添加模糊匹配的话，可以在对应字符路径判断的逻辑中，增加允许跳过的字符串长度判断。</p>
+<p><strong>敏感词等级处理</strong><br>通过敏感词校验等级，来更灵活的控制屏蔽词的力度。</p>
+<ul>
+<li>一级屏蔽词<br>校验字符串中只要顺序包含屏蔽词，则都屏蔽。<br>如敏感词：“傻瓜”，“你是不是傻啦吧唧瓜哪” –&gt;“你是不是*啦吧唧*哪”</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function index()  </span><br><span class="line">&#123;  </span><br><span class="line">     $logic = new filterWords();  </span><br><span class="line">     $str = $logic-&gt;filter(&#x27;你是不是傻啦吧唧瓜哪&#x27;,1);  </span><br><span class="line">     echo &#x27;校验结果：&#x27; . $str;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">校验结果：你是不是*啦吧唧*哪</span><br></pre></td></tr></table></figure>
+<ul>
+<li>二级屏蔽词<br>校验字符串中只要顺序间隔n个字符内包含屏蔽词，则屏蔽。<br>如敏感词：“傻瓜”，间隔2个字符内屏蔽。<br>“你是不是傻啦吧瓜哪” –&gt;“你是不是*啦吧*哪”<br>“你是不是傻啦吧唧瓜哪” –&gt;“你是不是傻啦吧唧瓜哪”<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function index()  </span><br><span class="line">&#123;  </span><br><span class="line">     $logic = new filterWords();  </span><br><span class="line">     $str = $logic-&gt;filter(&#x27;你是不是傻啦吧瓜哪&#x27;,2,2);  </span><br><span class="line">     echo &#x27;校验结果：&#x27; . $str;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">校验结果：你是不是*啦吧*哪</span><br></pre></td></tr></table></figure></li>
+<li>三级屏蔽词<br>校验字符串中只要全词匹配屏蔽词，则屏蔽。<br>如敏感词：“傻瓜”。<br>“你是不是傻瓜哪” –&gt;“你是不是**哪”<br>“你是不是傻啦吧唧瓜哪” –&gt;“你是不是傻啦吧唧瓜哪”<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function index()  </span><br><span class="line">&#123;  </span><br><span class="line">     $logic = new filterWords();  </span><br><span class="line">     $str = $logic-&gt;filter(&#x27;你是不是傻瓜哪&#x27;,3);  </span><br><span class="line">     echo &#x27;校验结果：&#x27; . $str;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">校验结果：你是不是**哪</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">#### 思路流程图：</span><br><span class="line">![image.png](https://image-static.segmentfault.com/489/516/489516922-5e05aa3838fcf_articlex)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">#### 封装成一个工具类：filterWords.php  </span><br><span class="line">```  </span><br><span class="line">&lt;?php  </span><br><span class="line">  </span><br><span class="line">class filterWords  </span><br><span class="line">&#123;  </span><br><span class="line"> protected $dict;//敏感词字典  </span><br><span class="line">  </span><br><span class="line"> public function __construct() </span><br><span class="line"> &#123; </span><br><span class="line">    $this-&gt;loadDataFormFile();</span><br><span class="line"> &#125;  </span><br><span class="line"> </span><br><span class="line"> /** </span><br><span class="line">  * 从文件中加载敏感词字典  </span><br><span class="line">  */</span><br><span class="line">  protected function loadDataFormFile() </span><br><span class="line">  &#123; </span><br><span class="line">      //此处可以修改为读文件，一般敏感词为文件形式，一行对应一个敏感词  </span><br><span class="line">     //如果经常调用的话，还可以通过缓存处理（redis、memcache）等等，此处不详细处理  </span><br><span class="line">     $arr = [ </span><br><span class="line">         &#x27;笨蛋&#x27;,  </span><br><span class="line">         &#x27;傻瓜&#x27;,  </span><br><span class="line">     ]; </span><br><span class="line">     //将敏感词加入此次节点  </span><br><span class="line">     foreach ($arr as $value) &#123; </span><br><span class="line">        $this-&gt;addWords(trim($value)); </span><br><span class="line">     &#125; </span><br><span class="line"> &#125;  </span><br><span class="line"> /** </span><br><span class="line"> * 分割文本  </span><br><span class="line"> * @param $str </span><br><span class="line"> * @return array[]|false|string[] </span><br><span class="line"> */ </span><br><span class="line"> protected function splitStr($str)</span><br><span class="line"> &#123; </span><br><span class="line">     //将字符串分割成组成它的字符  </span><br><span class="line">     // 其中/u 表示按unicode(utf-8)匹配（主要针对多字节比如汉字），否则默认按照ascii码容易出现乱码  </span><br><span class="line">     return preg_split(&quot;//u&quot;, $str, -1, PREG_SPLIT_NO_EMPTY); </span><br><span class="line"> &#125;  </span><br><span class="line"> </span><br><span class="line"> /** </span><br><span class="line"> * 添加敏感字至节点  </span><br><span class="line"> * @param $words </span><br><span class="line"> */</span><br><span class="line"> protected function addWords($words) </span><br><span class="line"> &#123; </span><br><span class="line">     //1.分割字典  </span><br><span class="line">     $wordArr = $this-&gt;splitStr($words);</span><br><span class="line">     $curNode = &amp;$this-&gt;dict; </span><br><span class="line">     foreach ($wordArr as $char) &#123; </span><br><span class="line">         if (!isset($curNode)) &#123; </span><br><span class="line">            $curNode[$char] = []; </span><br><span class="line">         &#125; </span><br><span class="line">        $curNode = &amp;$curNode[$char]; </span><br><span class="line">     &#125; </span><br><span class="line">     //标记到达当前节点完整路径为&quot;敏感词&quot;  </span><br><span class="line">     $curNode[&#x27;end&#x27;]++; </span><br><span class="line"> &#125;  </span><br><span class="line"> </span><br><span class="line"> /**  </span><br><span class="line">  * 敏感词校验  </span><br><span class="line">  * @param $str ;需要校验的字符串  </span><br><span class="line">  * @param int $level ;屏蔽词校验等级 1-只要顺序包含都屏蔽；2-中间间隔skipDistance个字符就屏蔽；3-全词匹配即屏蔽  </span><br><span class="line">  * @param int $skipDistance ;允许敏感词跳过的最大距离，如笨aa蛋a傻瓜等等  </span><br><span class="line">  * @param bool $isReplace ;是否需要替换，不需要的话，返回是否有敏感词，否则返回被替换的字符串  </span><br><span class="line">  * @param string $replace ;替换字符  </span><br><span class="line">  * @return bool|string  </span><br><span class="line">  */</span><br><span class="line"> public function filter($str, $level = 1, $skipDistance = 2, $isReplace = true, $replace = &#x27;*&#x27;)  </span><br><span class="line">&#123;  </span><br><span class="line">     //允许跳过的最大距离  </span><br><span class="line">     if ($level == 1) &#123;  </span><br><span class="line">         $maxDistance = strlen($str) + 1;  </span><br><span class="line">     &#125; elseif ($level == 2) &#123;  </span><br><span class="line">         $maxDistance = max($skipDistance, 0) + 1;  </span><br><span class="line">     &#125; else &#123;  </span><br><span class="line">         $maxDistance = 2;  </span><br><span class="line">     &#125;</span><br><span class="line">     $strArr = $this-&gt;splitStr($str); </span><br><span class="line">     $strLength = count($strArr);</span><br><span class="line">     $isSensitive = false;</span><br><span class="line">     for ($i = 0; $i &lt; $strLength; $i++) &#123;</span><br><span class="line">         //判断当前敏感字是否有存在对应节点  </span><br><span class="line">         $curChar = $strArr[$i]; </span><br><span class="line">         if (!isset($this-&gt;dict[$curChar])) &#123; </span><br><span class="line">             continue; </span><br><span class="line">         &#125;</span><br><span class="line">         $isSensitive = true; //引用匹配到的敏感词节点  </span><br><span class="line">         $curNode = &amp;$this-&gt;dict[$curChar]; </span><br><span class="line">         $dist = 0; </span><br><span class="line">         $matchIndex = [$i]; //匹配后续字符串是否match剩余敏感词  </span><br><span class="line">         for ($j = $i + 1; $j &lt; $strLength &amp;&amp; $dist &lt; $maxDistance; $j++) &#123;</span><br><span class="line">             if (!isset($curNode[$strArr[$j]])) &#123; </span><br><span class="line">                $dist++; continue; </span><br><span class="line">             &#125; </span><br><span class="line">            //如果匹配到的话，则把对应的字符所在位置存储起来，便于后续敏感词替换  </span><br><span class="line">             $matchIndex[] = $j; </span><br><span class="line">             //继续引用  </span><br><span class="line">             $curNode = &amp;$curNode[$strArr[$j]];</span><br><span class="line">        &#125;  </span><br><span class="line">        //判断是否已经到敏感词字典结尾，是的话，进行敏感词替换  </span><br><span class="line">         if (isset($curNode[&#x27;end&#x27;]) &amp;&amp; $isReplace) &#123; </span><br><span class="line">             foreach ($matchIndex as $index) &#123; </span><br><span class="line">                $strArr[$index] = $replace;</span><br><span class="line">             &#125;</span><br><span class="line">             $i = max($matchIndex);</span><br><span class="line">         &#125; </span><br><span class="line">        &#125; </span><br><span class="line">         if ($isReplace) &#123; </span><br><span class="line">            return implode(&#x27;&#x27;, $strArr);</span><br><span class="line">         &#125; else &#123; </span><br><span class="line">            return $isSensitive;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;  </span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">灵感来自于 [嘉兴ing](https://segmentfault.com/a/1190000019137933 &quot;Trie树 php 实现敏感词过滤&quot;) </span><br><span class="line">感谢分享.</span><br><span class="line"></span><br><span class="line">本文主要是针对上文添加了自己的理解，以及增加了通过屏蔽等级灵活控制敏感词过滤。</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>HiuTingYin
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://hiutingyin.github.io/2019-12-php%E5%AE%9E%E7%8E%B0%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4%EF%BC%88Trie%E6%A0%91%EF%BC%89/" title="php实现敏感词过滤（Trie树）">https://hiutingyin.github.io/2019-12-php实现敏感词过滤（Trie树）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/PHP/" rel="tag"><i class="fa fa-tag"></i> PHP</a>
+          </div>
+
+        <div>
+          
+            <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+          
+        </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/win10%E6%90%AD%E5%BB%BAUbuntu%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%8F%8A%E6%90%AD%E5%BB%BAlnmp%E7%8E%AF%E5%A2%83/" rel="prev" title="win10搭建Ubuntu子系统及搭建lnmp环境">
+      <i class="fa fa-chevron-left"></i> win10搭建Ubuntu子系统及搭建lnmp环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020-09-%E4%B8%80%E5%A4%A9%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%B0%8F%E6%97%B6/" rel="next" title="一天有多少个小时">
+      一天有多少个小时 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-text">代码适用场景：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91"><span class="nav-text">实现逻辑</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="HiutingYin"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">HiutingYin</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/HiutingYin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;HiutingYin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:tingtroy@foxmail.com" title="E-Mail → mailto:tingtroy@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HiutingYin</span>
+</div>
+
+<div>
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("01/07/2017 00:00:00");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <!-- 页面点击特效 -->
+  <script type="text/javascript" src="/js/click.js"></script>
+</body>
+</html>
