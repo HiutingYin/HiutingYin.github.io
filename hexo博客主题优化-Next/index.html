@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"hiutingyin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"b2t":true,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"hiutingyin.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false,"b2t":true,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="hexo自带的landscape主题有点不是很好看。然后搜了一下，发现Next还不错，很简单，极简美。功能比较齐全，也有很多外部插件，最重要的是一直都有人在维护更新。 Next主题的安装配置1.在博客对应的路径下的theme文件夹下clone对应的主题">
@@ -233,7 +233,16 @@
 <blockquote>
 <p>favicon:<br>   small: /images/favicon-16x16-next.png<br>   medium: /images/favicon-32x32-next.png<br>   apple_touch_icon: /images/apple-touch-icon-next.png<br>   safari_pinned_tab: /images/logo.svg</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">参考：</span><br><span class="line">1.https://www.jianshu.com/p/2b09156ee5b1</span><br><span class="line">2.https://blog.csdn.net/nightmare_dimple/article/details/86661502</span><br></pre></td></tr></table></figure>
+<h3 id="添加代码块一键复制功能"><a href="#添加代码块一键复制功能" class="headerlink" title="添加代码块一键复制功能"></a>添加代码块一键复制功能</h3><p>1.在themes/next/layout/_third-party/下新建文件copy-code.swig，写入下面的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.codeblock.copy_button.enable %&#125;</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    .copy-btn &#123;</span><br><span class="line">      display: inline-block;</span><br><span class="line">      padding: 6px 12px;</span><br><span class="line">      font-size: 13px;</span><br><span class="line">      font-weight: 700;</span><br><span class="line">      line-height: 20px;</span><br><span class="line">      color: #333;</span><br><span class="line">      white-space: nowrap;</span><br><span class="line">      vertical-align: middle;</span><br><span class="line">      cursor: pointer;</span><br><span class="line">      background-color: #eee;</span><br><span class="line">      background-image: linear-gradient(#fcfcfc, #eee);</span><br><span class="line">      border: 1px solid #d5d5d5;</span><br><span class="line">      border-radius: 3px;</span><br><span class="line">      user-select: none;</span><br><span class="line">      outline: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .highlight-wrap .copy-btn &#123;</span><br><span class="line">      transition: opacity .3s ease-in-out;</span><br><span class="line">      opacity: 0;</span><br><span class="line">      padding: 2px 6px;</span><br><span class="line">      position: absolute;</span><br><span class="line">      right: 4px;</span><br><span class="line">      top: 8px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .highlight-wrap:hover .copy-btn,</span><br><span class="line">    .highlight-wrap .copy-btn:focus &#123;</span><br><span class="line">      opacity: 1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .highlight-wrap &#123;</span><br><span class="line">      position: relative;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;script&gt;</span><br><span class="line">    $(&#x27;.highlight&#x27;).each(function (i, e) &#123;</span><br><span class="line">      var $wrap = $(&#x27;&lt;div&gt;&#x27;).addClass(&#x27;highlight-wrap&#x27;)</span><br><span class="line">      $(e).after($wrap)</span><br><span class="line">      $wrap.append($(&#x27;&lt;button&gt;&#x27;).addClass(&#x27;copy-btn&#x27;).append(&#x27;&#123;&#123;__(&quot;post.copy_button&quot;)&#125;&#125;&#x27;).on(&#x27;click&#x27;, function (e) &#123;</span><br><span class="line">        var code = $(this).parent().find(&#x27;.code&#x27;).find(&#x27;.line&#x27;).map(function (i, e) &#123;</span><br><span class="line">          return $(e).text()</span><br><span class="line">        &#125;).toArray().join(&#x27;\n&#x27;)</span><br><span class="line">        var ta = document.createElement(&#x27;textarea&#x27;)</span><br><span class="line">        document.body.appendChild(ta)</span><br><span class="line">        ta.style.position = &#x27;absolute&#x27;</span><br><span class="line">        ta.style.top = &#x27;0px&#x27;</span><br><span class="line">        ta.style.left = &#x27;0px&#x27;</span><br><span class="line">        ta.value = code</span><br><span class="line">        ta.select()</span><br><span class="line">        ta.focus()</span><br><span class="line">        var result = document.execCommand(&#x27;copy&#x27;)</span><br><span class="line">        document.body.removeChild(ta)</span><br><span class="line">        &#123;% if theme.codeblock.copy_button.show_result %&#125;</span><br><span class="line">          if(result)$(this).text(&#x27;&#123;&#123;__(&quot;post.copy_success&quot;)&#125;&#125;&#x27;)</span><br><span class="line">          else $(this).text(&#x27;&#123;&#123;__(&quot;post.copy_failure&quot;)&#125;&#125;&#x27;)</span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">        $(this).blur()</span><br><span class="line">      &#125;)).on(&#x27;mouseleave&#x27;, function (e) &#123;</span><br><span class="line">        var $b = $(this).find(&#x27;.copy-btn&#x27;)</span><br><span class="line">        setTimeout(function () &#123;</span><br><span class="line">          $b.text(&#x27;&#123;&#123;__(&quot;post.copy_button&quot;)&#125;&#125;&#x27;)</span><br><span class="line">        &#125;, 300)</span><br><span class="line">      &#125;).append(e)</span><br><span class="line">    &#125;)</span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.编辑themes/next/layout/_layout.swig文件，在文件末尾的如下位置添加一行代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% include &#x27;_third-party/copy-code.swig&#x27; %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.在主题配置文件themes/next/_config.yml中开启开关</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">codeblock:</span><br><span class="line">  # Code Highlight theme</span><br><span class="line">  # Available values: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic</span><br><span class="line">  # See: https://github.com/chriskempson/tomorrow-theme</span><br><span class="line">  highlight_theme: normal</span><br><span class="line">  # Add copy button on codeblock</span><br><span class="line">  copy_button:</span><br><span class="line">    enable: true</span><br><span class="line">    # Show text copy result.</span><br><span class="line">    show_result: true</span><br><span class="line">    # Available values: default | flat | mac</span><br><span class="line">    style:</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">参考：</span><br><span class="line">1.https://www.jianshu.com/p/2b09156ee5b1</span><br><span class="line">2.https://blog.csdn.net/nightmare_dimple/article/details/86661502</span><br><span class="line">3.https://afuya.blog.csdn.net/article/details/107466848</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -342,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Next%E4%B8%BB%E9%A2%98%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="nav-text">Next主题的安装配置</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Next%E4%B8%BB%E9%A2%98%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="nav-text">Next主题的安装配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%80%E9%94%AE%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD"><span class="nav-text">添加代码块一键复制功能</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -505,6 +514,76 @@ setInterval("createtime()",250);
   
 
   <!-- 页面点击特效 -->
+    <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+
+        if(result)$(this).text('复制成功')
+        else $(this).text('复制失败')
+
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
   <script type="text/javascript" src="/js/click.js"></script>
 </body>
 </html>
