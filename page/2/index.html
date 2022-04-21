@@ -164,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/2021-08-%E4%BB%80%E4%B9%88%E6%98%AFdocker/">
+    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/docker-Hello-World/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -178,7 +178,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021-08-%E4%BB%80%E4%B9%88%E6%98%AFdocker/" class="post-title-link" itemprop="url">什么是docker</a>
+            <a href="/docker-Hello-World/" class="post-title-link" itemprop="url">docker-Hello World</a>
         </h2>
 
         <div class="post-meta">
@@ -188,7 +188,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-29 18:00:00" itemprop="dateCreated datePublished" datetime="2021-08-29T18:00:00+08:00">2021-08-29</time>
+              <time title="创建时间：2022-03-16 15:35:19" itemprop="dateCreated datePublished" datetime="2022-03-16T15:35:19+08:00">2022-03-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -215,10 +215,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>Docker 属于 Linux 容器的一种封装，提供简单易用的容器使用接口。</strong>它是目前最流行的 Linux 容器解决方案。</p>
+          <h1 id="使用docker镜像"><a href="#使用docker镜像" class="headerlink" title="使用docker镜像"></a>使用docker镜像</h1><p>Docker运行容器之前，需要本地存在对应的镜像，如果镜像不存在，Docker会尝试先从默认镜像仓库下载（默认使用 <strong>Docker Hub</strong> 公共注册服务器中的仓库）,用户也可以通过配置，使用自定义的镜像仓库。</p>
+<ul>
+<li>Docker [image] pull [registry/]NAME[:TAG]<ul>
+<li>如果不显示指定registry，则默认使用registry.hub.docker.com （，国内连接 Docker 的官方仓库很慢，还会断线，需要将默认仓库改成国内的镜像网站。）</li>
+<li>如果不显示指定TAG，则会默认选择latest标签，这会下载仓库中最新版本的镜像（一般在生产环境不要使用latest标签，因为最新版本往往比较不稳定）</li>
+</ul>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021-08-%E4%BB%80%E4%B9%88%E6%98%AFdocker/#more" rel="contents">
+              <a class="btn" href="/docker-Hello-World/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -242,7 +249,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/2021-08-group-by%E5%88%86%E7%BB%84%E5%90%8E%E8%8E%B7%E5%8F%96%E6%9C%80%E5%A4%A7%E5%80%BC%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B4%E6%9D%A1%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/hexo%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96-Next/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -256,7 +263,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021-08-group-by%E5%88%86%E7%BB%84%E5%90%8E%E8%8E%B7%E5%8F%96%E6%9C%80%E5%A4%A7%E5%80%BC%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B4%E6%9D%A1%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">group by分组后获取最大值对应的整条记录</a>
+            <a href="/hexo%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96-Next/" class="post-title-link" itemprop="url">hexo博客主题优化-Next</a>
         </h2>
 
         <div class="post-meta">
@@ -266,7 +273,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-08-25 18:58:00" itemprop="dateCreated datePublished" datetime="2021-08-25T18:58:00+08:00">2021-08-25</time>
+              <time title="创建时间：2022-01-21 17:40:27" itemprop="dateCreated datePublished" datetime="2022-01-21T17:40:27+08:00">2022-01-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,11 +281,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/" itemprop="url" rel="index"><span itemprop="name">日常问题合集</span></a>
-                </span>
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
                 </span>
             </span>
 
@@ -293,10 +296,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在mysql中如果使用 <code>group by</code>进行分组获取某一列的最大值，我们可以直接使用<code>max</code>进行获取。<br>但是如果我们需要最大值对应的其余列值，那么我们需要取得整行的数据。</p>
+          <p>hexo自带的landscape主题有点不是很好看。然后搜了一下，发现<a target="_blank" rel="noopener" href="https://github.com/theme-next/hexo-theme-next">Next</a>还不错，很简单，极简美。<br>功能比较齐全，也有很多外部插件，最重要的是一直都有人在维护更新。</p>
+<h3 id="Next主题的安装配置"><a href="#Next主题的安装配置" class="headerlink" title="Next主题的安装配置"></a>Next主题的安装配置</h3><p>1.在博客对应的路径下的theme文件夹下clone对应的主题</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021-08-group-by%E5%88%86%E7%BB%84%E5%90%8E%E8%8E%B7%E5%8F%96%E6%9C%80%E5%A4%A7%E5%80%BC%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B4%E6%9D%A1%E8%AE%B0%E5%BD%95/#more" rel="contents">
+              <a class="btn" href="/hexo%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98%E4%BC%98%E5%8C%96-Next/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -320,7 +324,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/2021-06-Html%E4%B8%ADinclude%E7%9A%84%E7%94%A8%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Github-Pages/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -334,7 +338,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021-06-Html%E4%B8%ADinclude%E7%9A%84%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">Html中include的用法</a>
+            <a href="/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Github-Pages/" class="post-title-link" itemprop="url">使用hexo搭建博客并部署到Github Pages</a>
         </h2>
 
         <div class="post-meta">
@@ -344,7 +348,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-26 17:38:00" itemprop="dateCreated datePublished" datetime="2021-06-26T17:38:00+08:00">2021-06-26</time>
+              <time title="创建时间：2022-01-21 16:28:56" itemprop="dateCreated datePublished" datetime="2022-01-21T16:28:56+08:00">2022-01-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,11 +356,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/" itemprop="url" rel="index"><span itemprop="name">日常问题合集</span></a>
-                </span>
-                  >
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/HTML/" itemprop="url" rel="index"><span itemprop="name">HTML</span></a>
+                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
                 </span>
             </span>
 
@@ -371,11 +371,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>因为在日常活动开发过程中，页面的底部基本都需要 版权或者相关的页脚 信息，这时候就可以将这部分代码单独抽成一个html文件，每次引用即可。<br>所以在html中使用了&lt;!–#include file=footer.html”&gt;，结果发现页面上并没有引入到footer.html页面,F12看是以注释的形式展示出来了。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3>
+          <p>原来一直用的是jekyll，但是最近不懂为啥jekyll突然崩了，编译一直失败。<br>自己对jekyll的语法又不是很熟悉，尝试了好几种方法都没有成功解决。就改换成hexo了。<br>换成hexo之后，发现果然方便了许多。包括发布更新到github的流程。</p>
+<p>下面是这次使用hexo搭建博客并部署到 Github Pages的步骤记录。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021-06-Html%E4%B8%ADinclude%E7%9A%84%E7%94%A8%E6%B3%95/#more" rel="contents">
+              <a class="btn" href="/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0Github-Pages/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -399,7 +399,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/2021-06-B%E7%AB%99%E8%A7%86%E9%A2%91%E5%86%85%E5%B5%8C%E5%A4%84%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://hiutingyin.github.io/2021-08-%E6%A0%B9%E6%8D%AEB%E7%AB%99%E5%8D%95%E6%9D%A1%E8%A7%86%E9%A2%91%E5%9C%B0%E5%9D%80%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -413,7 +413,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021-06-B%E7%AB%99%E8%A7%86%E9%A2%91%E5%86%85%E5%B5%8C%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">B站视频内嵌处理</a>
+            <a href="/2021-08-%E6%A0%B9%E6%8D%AEB%E7%AB%99%E5%8D%95%E6%9D%A1%E8%A7%86%E9%A2%91%E5%9C%B0%E5%9D%80%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">根据B站单条视频地址获取对应基础信息</a>
         </h2>
 
         <div class="post-meta">
@@ -423,7 +423,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-18 16:55:00" itemprop="dateCreated datePublished" datetime="2021-06-18T16:55:00+08:00">2021-06-18</time>
+              <time title="创建时间：2021-08-30 18:54:00" itemprop="dateCreated datePublished" datetime="2021-08-30T18:54:00+08:00">2021-08-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -435,7 +435,7 @@
                 </span>
                   >
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/HTML/" itemprop="url" rel="index"><span itemprop="name">HTML</span></a>
+                  <a href="/categories/%E6%97%A5%E5%B8%B8%E9%97%AE%E9%A2%98%E5%90%88%E9%9B%86/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
                 </span>
             </span>
 
@@ -450,11 +450,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>在投稿类型活动过程中，会需要将玩家投稿的B站视频，在活动页中展示出来并且进行播放。<br>基本操作是，将视频地址通过iframe标签内嵌在活动页中。但是内嵌的视频会出现<br>1、B站分辨率太小，视频不高清<br>2、视频弹幕太多，并且游戏平台不希望主动将弹幕展示给游戏内玩家</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3>
+          <p>投稿活动开发过程中有个需求，需要玩家输入对应的B站视频链接后，需要读取该视频的标题、封面、播放地址等信息。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021-06-B%E7%AB%99%E8%A7%86%E9%A2%91%E5%86%85%E5%B5%8C%E5%A4%84%E7%90%86/#more" rel="contents">
+              <a class="btn" href="/2021-08-%E6%A0%B9%E6%8D%AEB%E7%AB%99%E5%8D%95%E6%9D%A1%E8%A7%86%E9%A2%91%E5%9C%B0%E5%9D%80%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -477,7 +476,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -545,20 +544,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
